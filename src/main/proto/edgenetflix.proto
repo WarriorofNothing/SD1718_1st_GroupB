@@ -1,0 +1,43 @@
+
+syntax = "proto3";
+
+package com.edgenetflix.grpc;
+option java_multiple_files = true;
+
+message ChunkRequest{
+    int32 chunkIndex = 1;
+}
+
+message ChunkResponse{
+    bytes chunk = 1;
+    int32 seqNumber = 2;
+    int64 payload = 3;
+}
+
+message SeederRequest{
+    string fileName = 1;
+}
+
+message SeederResponse{
+    string ip = 1;
+    int64 port = 2;
+    int64 fileLength = 3;
+    string fileHash = 4;
+    int64 chunkLegth = 5;
+    repeated string chunkHash = 6;
+}
+
+message Void{
+
+}
+
+message SeederList{
+    repeated string seeder = 1;
+}
+
+service DownloadSevice{
+    rpc getChunk(ChunkRequest) returns (stream ChunkResponse);
+    rpc requestForSeeder(SeederRequest) returns (stream SeederResponse);
+    rpc shutdownSeeder(SeederRequest) returns (Void);
+    rpc getSeederList(Void) returns (stream SeederList);
+}
