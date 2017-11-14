@@ -53,6 +53,10 @@ public class EdgeNetflixClient {
         listOption.setArgName("(files | seeders)");
         listOption.setOptionalArg(true);
         options.addOption(listOption);
+        Option infoOption = new Option("in", "info", true, "shows info of the file");
+        infoOption.setArgName("'file name'");
+        infoOption.setOptionalArg(true);
+        options.addOption(infoOption);
 
         System.out.println("Port in use: " + CLIENT_PORT);
         System.out.println("Welcome to EdgeNetflix");
@@ -96,9 +100,17 @@ public class EdgeNetflixClient {
                         play(command.getOptionValue("play"));
                     }
 
-                } else {
+                } else if(command.hasOption("info")) {
+                    if (command.getOptionValue("info") == null)
+                        System.out.println("Missing argument: type -help for Help. ");
+                    else {
+                        infoFile();
+                    }
+                }
+                else {
                     System.out.println("Unknown command: type -help for Help.");
                 }
+
             }
             else System.out.println("Unknown command: type -help for Help.");
 
@@ -265,7 +277,7 @@ public class EdgeNetflixClient {
                 service.sendAck(file, CLIENT_ID, next_chunk, true);
                 server.shutdown();
 
-                File downloaded_file = new File("/home/alberto/Desktop/FCUP-4Ano/EdgeNetflix/src/main/java/com/edgenetflix/cli/downloads/" + file + ".mp4");
+                File downloaded_file = new File("/home/alberto/Desktop/Stuff/EdgeNetflix/src/main/java/com/edgenetflix/cli/downloads/" + file + ".mp4");
                 FileOutputStream fos = new FileOutputStream(downloaded_file);
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
 
@@ -290,7 +302,7 @@ public class EdgeNetflixClient {
     }
 
     private void play(String file_name){
-        String path = "/home/alberto/Desktop/FCUP-4Ano/EdgeNetflix/src/main/java/com/edgenetflix/cli/downloads";
+        String path = "/home/alberto/Desktop/Stuff/EdgeNetflix/src/main/java/com/edgenetflix/cli/downloads";
 
         File[] files = new File(path).listFiles();
 
@@ -298,7 +310,7 @@ public class EdgeNetflixClient {
             for (File file : files) {
                 if (file.isFile() && file.getName().equals(file_name)) {
                     new Thread(() -> {
-                        ProcessBuilder b = new ProcessBuilder("/usr/bin/xplayer","/home/alberto/Desktop/FCUP-4Ano/EdgeNetflix/src/main/java/com/edgenetflix/cli/downloads/" + file.getName());
+                        ProcessBuilder b = new ProcessBuilder("/usr/bin/xplayer","/home/alberto/Desktop/Stuff/EdgeNetflix/src/main/java/com/edgenetflix/cli/downloads/" + file.getName());
                         try {
                             b.start();
 
@@ -312,7 +324,7 @@ public class EdgeNetflixClient {
     }
 
     private void listFiles(){
-        String path = "/home/alberto/Desktop/FCUP-4Ano/EdgeNetflix/src/main/java/com/edgenetflix/cli/downloads/";
+        String path = "/home/alberto/Desktop/Stuff/EdgeNetflix/src/main/java/com/edgenetflix/cli/downloads/";
 
         File[] files = new File(path).listFiles();
 
@@ -332,5 +344,30 @@ public class EdgeNetflixClient {
         ConnectionService service = new ConnectionService("http://104.198.245.139:8080/home");
 
         service.getList();
+    }
+
+
+
+    private void infoFile(){
+
+        String path = "/home/alberto/Desktop/Stuff/EdgeNetflix/src/main/java/com/edgenetflix/cli/downloads/";
+
+        File[] files = new File(path).listFiles();
+        if (files != null) {
+            for(File file : files){
+                if(file.isFile()){
+                    System.out.println("File name: " + file.getName());
+                    System.out.println("Full path: " + file.getPath());
+                    System.out.println("File size: " + bytesToMeg(file.length()) + "Mb");
+                }
+            }
+        }
+
+    }
+
+    private static final long  MEGABYTE = 1024L * 1024L;
+
+    private static long bytesToMeg(long bytes) {
+        return bytes / MEGABYTE ;
     }
 }
