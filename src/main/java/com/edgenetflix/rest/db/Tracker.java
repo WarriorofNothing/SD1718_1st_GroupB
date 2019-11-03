@@ -177,7 +177,7 @@ public class Tracker {
      */
     private void seederRequest(String file) throws InterruptedException{
         ManagedChannel channel = ManagedChannelBuilder.forAddress("35.184.72.242", 8081)
-                .usePlaintext(true)
+                .usePlaintext()
                 .build();
 
         DownloadSeviceGrpc.DownloadSeviceBlockingStub stub = DownloadSeviceGrpc.newBlockingStub(channel);
@@ -208,7 +208,7 @@ public class Tracker {
 
     private void seederShutdown(String file){
         ManagedChannel channel = ManagedChannelBuilder.forAddress("35.184.72.242", 8081)
-                .usePlaintext(true)
+                .usePlaintext()
                 .build();
 
         DownloadSeviceGrpc.DownloadSeviceBlockingStub stub = DownloadSeviceGrpc.newBlockingStub(channel);
@@ -224,7 +224,7 @@ public class Tracker {
 
     public String seederList(){
         ManagedChannel channel = ManagedChannelBuilder.forAddress("35.184.72.242", 8081)
-                .usePlaintext(true)
+                .usePlaintext()
                 .build();
 
         DownloadSeviceGrpc.DownloadSeviceBlockingStub stub = DownloadSeviceGrpc.newBlockingStub(channel);
