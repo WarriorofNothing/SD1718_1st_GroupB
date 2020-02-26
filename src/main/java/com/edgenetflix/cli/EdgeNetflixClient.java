@@ -243,7 +243,7 @@ public class EdgeNetflixClient {
                         peerToGetChunk = chunkInfo.getSeeder();
 
                     ManagedChannel channel = ManagedChannelBuilder.forAddress(peerToGetChunk.getIp(), peerToGetChunk.getPort())
-                            .usePlaintext(true)
+                            .usePlaintext()
                             .build();
                     DownloadSeviceGrpc.DownloadSeviceBlockingStub stub = DownloadSeviceGrpc.newBlockingStub(channel);
                     Iterator<ChunkResponse> chunkData = stub.getChunk(ChunkRequest.newBuilder()

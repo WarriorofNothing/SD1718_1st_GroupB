@@ -50,7 +50,7 @@ public class Response {
 
     public void parseMetadata(String json_response){
 
-        JsonObject metadataJson = new JsonParser().parse(json_response).getAsJsonObject();
+        JsonObject metadataJson = JsonParser.parseString(json_response).getAsJsonObject();
         file_length = metadataJson.get("fileLength").getAsLong();
         file_hash = metadataJson.get("fileHash").getAsString();
         chunk_length = metadataJson.get("chunkLength").getAsLong();
@@ -68,7 +68,7 @@ public class Response {
      * @param json_response Response in json format
      */
     public void parseChunkInfo(String json_response){
-        JsonObject chunkinfoJson = new JsonParser().parse(json_response).getAsJsonObject();
+        JsonObject chunkinfoJson = JsonParser.parseString(json_response).getAsJsonObject();
         JsonObject seederJson = chunkinfoJson.get("seeder").getAsJsonObject();
         JsonArray leechersJsonArray = chunkinfoJson.get("leechers").getAsJsonArray();
 
@@ -88,7 +88,7 @@ public class Response {
     }
 
     public void parseSeederList(String json_response){
-        JsonObject listJson = new JsonParser().parse(json_response).getAsJsonObject();
+        JsonObject listJson = JsonParser.parseString(json_response).getAsJsonObject();
         JsonArray seedersJsonArray = listJson.get("seederList").getAsJsonArray();
 
         for(int i=0; i < seedersJsonArray.size(); i++){
