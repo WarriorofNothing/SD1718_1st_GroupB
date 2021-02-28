@@ -3,15 +3,6 @@ package com.edgenetflix.cli;
 import com.edgenetflix.cli.json.Peer;
 import com.edgenetflix.cli.json.Response;
 import com.edgenetflix.cli.rest.ConnectionService;
-
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
-
 import com.edgenetflix.cli.service.LeecherServiceImpl;
 import com.edgenetflix.grpc.ChunkRequest;
 import com.edgenetflix.grpc.ChunkResponse;
@@ -21,7 +12,25 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.UUID;
 
 public class EdgeNetflixClient {
     private final static String CLIENT_ID = createId();
