@@ -3,8 +3,8 @@ package com.edgenetflix.rest;
 import com.edgenetflix.rest.db.Leecher;
 import com.edgenetflix.rest.db.Tracker;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
 @Path("/")
 public class Resources {
